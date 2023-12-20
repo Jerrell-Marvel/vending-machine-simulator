@@ -1,7 +1,9 @@
 "use client";
 import { getNextState, getOutput } from "@/utils/states";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { AnimatePresence, motion } from "framer-motion";
 
 export type Item = {
   name: string;
@@ -31,12 +33,76 @@ const stateValueMap: { [key: string]: number } = {
 
 const nominal = ["1000", "2000", "5000", "10000"];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+  },
+};
+
+const buttonVariants = {
+  hidden: {
+    y: 25,
+    opacity: 0,
+    transition: {
+      duration: 0.3,
+    },
+  },
+
+  show: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.3,
+    },
+  },
+};
+
 export default function Home() {
   const [selectedItem, setSelectedItem] = useState<Item | undefined>();
 
   const [currState, setCurrState] = useState<string>("S0");
 
   const [output, setOutput] = useState("n");
+
+  useEffect(() => {
+    if (output !== "n") {
+      console.log(output);
+      if (output === "drink") {
+        Swal.fire({
+          title: "Item purchased",
+          text: `here's your ${selectedItem?.name}`,
+          icon: "success",
+          confirmButtonText: "alright",
+          confirmButtonColor: "#475569",
+          background: "#1e293b",
+          color: "white",
+        });
+        setSelectedItem(undefined);
+      } else {
+        Swal.fire({
+          title: "Amount of money must be exact",
+          text: `here's your ${output} back`,
+          icon: "error",
+          confirmButtonText: "alright",
+          confirmButtonColor: "#475569",
+          background: "#1e293b",
+          color: "white",
+        });
+      }
+    }
+  }, [output]);
 
   const handleInputButtonClick = (input: string) => {
     if (selectedItem) {
@@ -48,25 +114,92 @@ export default function Home() {
     }
   };
 
+  const handleItemButtonClick = (item: Item) => {
+    if (!selectedItem) {
+      setSelectedItem(item);
+    } else {
+      Swal.fire({
+        title: "Transaction cannot be processed",
+        text: `Please complete the ongoing transaction first`,
+        icon: "error",
+        confirmButtonText: "alright",
+        confirmButtonColor: "#475569",
+        background: "#1e293b",
+        color: "white",
+      });
+    }
+  };
+
   return (
-    <main className="flex justify-center bg-slate-900 min-h-screen text-white">
-      <div className="max-w-[768px] bg-slate-800">
-        <div>
+    <main className="flex justify-center bg-slate-950 min-h-screen text-white py-16 px-8">
+      <div className="w-full max-w-5xl">
+        <motion.div
+          className="flex justify-center font-medium text-2xl
+            px-6 py-10 items-center bg-slate-800 rounded-lg text-center"
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          Lorem, ipsum dolor.
+        </motion.div>
+
+        <motion.div
+          className="justify-center gap-3 text-white mt-6 rounded-lg grid grid-cols-2 md:grid-cols-4"
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+        >
+          {items.map((item) => {
+            return (
+              <motion.div
+                key={item.name}
+                className={"w-full bg-slate-800 rounded-lg flex flex-col overflow-hidden cursor-pointer hover:scale-95 duration-300 text-xl"}
+                onClick={() => {
+                  handleItemButtonClick(item);
+                }}
+                whileHover={{ scale: 0.95 }}
+                variants={itemVariants}
+              >
+                <div className="px-3 py-4">{item.name}</div>
+                <Image
+                  src={"/4x3.png"}
+                  width={400}
+                  height={300}
+                  alt={item.name}
+                  className="w-full rounded-t-lg"
+                ></Image>
+
+                <div className="px-3 py-4">{item.price}</div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        <AnimatePresence>
           {selectedItem ? (
-            <div>
-              <div className="flex justify-center text-2xl sm:text-3xl bg-slate-700  h-20 sm:h-24 items-center font-medium sm:font-semibold ">
-                {selectedItem.name}
+            <motion.div
+              className="mt-6rounded-md px-6 py-10"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="flex flex-col text-center p text-2xl items-center font-medium sm:font-semibold rounded-lg px-4 py-4 gap-2">
+                <p>{selectedItem.name}</p>
+                <p>{selectedItem.price}</p>
               </div>
-              <div className="flex justify-center text-xl pt-10 font-medium">
-                {selectedItem.price}
+              {/* <div className="flex justify-center text-xl pt-10 font-medium">{selectedItem.price}</div> */}
+              <div className="flex flex-col justify-center items-center mt-6">
+                <div className="text-xl"> current balance : </div>
+                <div className="text-lg">{stateValueMap[currState]}</div>
               </div>
 
-              <div className="flex gap-3 sm:gap-6 py-10 px-5">
+              <div className="flex justify-center gap-4 mt-6">
                 {nominal.map((nominal) => {
                   return (
                     <button
                       key={nominal}
-                      className="bg-slate-600 p-4"
+                      className="btn"
                       onClick={() => handleInputButtonClick(nominal)}
                     >
                       {nominal}
@@ -75,97 +208,46 @@ export default function Home() {
                 })}
               </div>
 
-              <div className="py-10 flex flex-col justify-center items-center">
-                <div className="text-xl"> current money : </div>
-                <div className="text-lg">{stateValueMap[currState]}</div>
-              </div>
+              <div className="flex justify-center mt-6">
+                <AnimatePresence>
+                  {stateValueMap[currState] < selectedItem.price ? null : (
+                    <motion.button
+                      className="btn"
+                      onClick={() => {
+                        handleInputButtonClick("buy");
+                        // setOutput(selectedItem.name);
+                        // setSelectedItem(undefined);
+                      }}
+                      initial="hidden"
+                      animate="show"
+                      exit="hidden"
+                      variants={buttonVariants}
+                    >
+                      buy
+                    </motion.button>
+                  )}
+                </AnimatePresence>
 
-              <div className="flex justify-center">
-                {stateValueMap[currState] < selectedItem.price ? null : (
-                  <button
-                    className="bg-slate-500 p-2 px-3 text-lg rounded-md"
-                    onClick={() => {
-                      handleInputButtonClick("buy");
-                      setOutput(selectedItem.name);
-                      setSelectedItem(undefined);
-                    }}
-                  >
-                    buy
-                  </button>
-                )}
+                <AnimatePresence>
+                  {currState === "S0" ? (
+                    <motion.button
+                      onClick={() => {
+                        setSelectedItem(undefined);
+                      }}
+                      className="btn"
+                      initial="hidden"
+                      animate="show"
+                      exit="hidden"
+                      variants={buttonVariants}
+                    >
+                      Cancel transaction
+                    </motion.button>
+                  ) : null}
+                </AnimatePresence>
               </div>
-
-              {currState === "S0" ? (
-                <div className=" flex justify-center">
-                  <button
-                    onClick={() => {
-                      setSelectedItem(undefined);
-                    }}
-                    className="bg-slate-600 p-2 rounded-md"
-                  >
-                    Return
-                  </button>
-                </div>
-              ) : null}
-            </div>
-          ) : (
-            <>
-              <div
-                className="flex justify-center font-medium text-2xl
-              p-20 items-center"
-              >
-                Choose your Product!
-              </div>
-              <div className="flex flex-wrap justify-center gap-2 sm:gap-6 text-white">
-                {items.map((item) => {
-                  return (
-                    <>
-                      <div className="flex-col  bg-slate-600 border-2 cursor-pointer">
-                        <button
-                          key={item.name}
-                          className="w-22 sm:w-28 h-22 sm:h-28 flex flex-col text-lg justify-center items-center px-6 py-4 "
-                          onClick={() => {
-                            setOutput("n");
-                            setSelectedItem(item);
-                          }}
-                        >
-                          {item.name}
-                        </button>
-
-                        <p className="text-center text-sm bg-slate-950">
-                          {item.price}
-                        </p>
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
-            </>
-          )}
-        </div>
-        <div>
-          {output != "n" ? (
-            currState != "S0" ? (
-              <div className="flex justify-center pt-10 cursor-default">
-                Output : {output}
-              </div>
-            ) : (
-              <div className="pt-20">
-                <div className="flex flex-col items-center justify-center  text-xl font-bold cursor-default">
-                  Enjoy Your {output} !
-                  <img
-                    src="nipis madu png.png"
-                    alt=""
-                    className="h-48 w-48 mt-4 cursor-pointer"
-                    onClick={() => {
-                      setOutput("n");
-                    }}
-                  />
-                </div>
-              </div>
-            )
+            </motion.div>
           ) : null}
-        </div>
+        </AnimatePresence>
       </div>
     </main>
   );
