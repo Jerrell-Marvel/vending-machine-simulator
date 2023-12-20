@@ -49,72 +49,124 @@ export default function Home() {
   };
 
   return (
-    <main className="w-full">
-      <div>
-        {selectedItem ? (
-          <div>
-            {currState == "S0" ? (
-              <button
-                onClick={() => {
-                  setSelectedItem(undefined);
-                }}
-              >
-                back
-              </button>
-            ) : null}
+    <main className="flex justify-center bg-slate-900 min-h-screen text-white">
+      <div className="max-w-[768px] bg-slate-800">
+        <div>
+          {selectedItem ? (
+            <div>
+              <div className="flex justify-center text-2xl sm:text-3xl bg-slate-700  h-20 sm:h-24 items-center font-medium sm:font-semibold ">
+                {selectedItem.name}
+              </div>
+              <div className="flex justify-center text-xl pt-10 font-medium">
+                {selectedItem.price}
+              </div>
 
-            <div>{selectedItem.name}</div>
-            <div>{selectedItem.price}</div>
+              <div className="flex gap-3 sm:gap-6 py-10 px-5">
+                {nominal.map((nominal) => {
+                  return (
+                    <button
+                      key={nominal}
+                      className="bg-slate-600 p-4"
+                      onClick={() => handleInputButtonClick(nominal)}
+                    >
+                      {nominal}
+                    </button>
+                  );
+                })}
+              </div>
 
-            <div className="flex gap-6">
-              {nominal.map((nominal) => {
-                return (
+              <div className="py-10 flex flex-col justify-center items-center">
+                <div className="text-xl"> current money : </div>
+                <div className="text-lg">{stateValueMap[currState]}</div>
+              </div>
+
+              <div className="flex justify-center">
+                {stateValueMap[currState] < selectedItem.price ? null : (
                   <button
-                    key={nominal}
-                    className="bg-slate-200 p-4"
-                    onClick={() => handleInputButtonClick(nominal)}
+                    className="bg-slate-500 p-2 px-3 text-lg rounded-md"
+                    onClick={() => {
+                      handleInputButtonClick("buy");
+                      setOutput(selectedItem.name);
+                      setSelectedItem(undefined);
+                    }}
                   >
-                    {nominal}
+                    buy
                   </button>
-                );
-              })}
+                )}
+              </div>
 
-              {stateValueMap[currState] < selectedItem.price ? null : (
-                <button
-                  className="bg-slate-200 p-4"
-                  onClick={() => {
-                    handleInputButtonClick("buy");
-                    setSelectedItem(undefined);
-                  }}
-                >
-                  buy
-                </button>
-              )}
-            </div>
-
-            <div>curr duit : {stateValueMap[currState]}</div>
-          </div>
-        ) : (
-          <div className="flex flex-wrap justify-center gap-6 bg-red-50">
-            {items.map((item) => {
-              return (
-                <div
-                  key={item.name}
-                  className="w-28 h-28 flex flex-col justify-center items-center bg-yellow-300 px-6 py-4 cursor-pointer"
-                  onClick={() => {
-                    setSelectedItem(item);
-                  }}
-                >
-                  <p>{item.name}</p>
-                  <p>{item.price}</p>
+              {currState === "S0" ? (
+                <div className=" flex justify-center">
+                  <button
+                    onClick={() => {
+                      setSelectedItem(undefined);
+                    }}
+                    className="bg-slate-600 p-2 rounded-md"
+                  >
+                    Return
+                  </button>
                 </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
+              ) : null}
+            </div>
+          ) : (
+            <>
+              <div
+                className="flex justify-center font-medium text-2xl
+              p-20 items-center"
+              >
+                Choose your Product!
+              </div>
+              <div className="flex flex-wrap justify-center gap-2 sm:gap-6 text-white">
+                {items.map((item) => {
+                  return (
+                    <>
+                      <div className="flex-col  bg-slate-600 border-2 cursor-pointer">
+                        <button
+                          key={item.name}
+                          className="w-22 sm:w-28 h-22 sm:h-28 flex flex-col text-lg justify-center items-center px-6 py-4 "
+                          onClick={() => {
+                            setOutput("n");
+                            setSelectedItem(item);
+                          }}
+                        >
+                          {item.name}
+                        </button>
 
-      <div>Output : {output}</div>
+                        <p className="text-center text-sm bg-slate-950">
+                          {item.price}
+                        </p>
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
+            </>
+          )}
+        </div>
+        <div>
+          {output != "n" ? (
+            currState != "S0" ? (
+              <div className="flex justify-center pt-10 cursor-default">
+                Output : {output}
+              </div>
+            ) : (
+              <div className="pt-20">
+                <div className="flex flex-col items-center justify-center  text-xl font-bold cursor-default">
+                  Enjoy Your {output} !
+                  <img
+                    src="nipis madu png.png"
+                    alt=""
+                    className="h-48 w-48 mt-4 cursor-pointer"
+                    onClick={() => {
+                      setOutput("n");
+                    }}
+                  />
+                </div>
+              </div>
+            )
+          ) : null}
+        </div>
+      </div>
     </main>
   );
 }
