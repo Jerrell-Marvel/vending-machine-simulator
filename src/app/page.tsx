@@ -26,7 +26,7 @@ const stateValueMap: { [key: string]: number } = {
   S7: 7000,
   S8: 8000,
   S9: 9000,
-  S10: 100000,
+  S10: 10000,
 };
 
 const nominal = ["1000", "2000", "5000", "10000"];
