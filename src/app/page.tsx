@@ -82,9 +82,9 @@ export default function Home() {
       if (output === "drink") {
         Swal.fire({
           title: "Item purchased",
-          text: `here's your ${selectedItem?.name}`,
+          text: `Here's your ${selectedItem?.name}`,
           icon: "success",
-          confirmButtonText: "alright",
+          confirmButtonText: "Alright",
           confirmButtonColor: "#475569",
           background: "#1e293b",
           color: "white",
@@ -93,9 +93,9 @@ export default function Home() {
       } else {
         Swal.fire({
           title: "Amount of money must be exact",
-          text: `here's your ${output} back`,
+          text: `Here's your ${output} back`,
           icon: "error",
-          confirmButtonText: "alright",
+          confirmButtonText: "Alright",
           confirmButtonColor: "#475569",
           background: "#1e293b",
           color: "white",
@@ -122,7 +122,7 @@ export default function Home() {
         title: "Transaction cannot be processed",
         text: `Please complete the ongoing transaction first`,
         icon: "error",
-        confirmButtonText: "alright",
+        confirmButtonText: "Alright",
         confirmButtonColor: "#475569",
         background: "#1e293b",
         color: "white",
@@ -153,7 +153,9 @@ export default function Home() {
             return (
               <motion.div
                 key={item.name}
-                className={"w-full bg-slate-800 rounded-lg flex flex-col overflow-hidden cursor-pointer hover:scale-95 duration-300 text-xl"}
+                className={
+                  "w-full bg-slate-800 rounded-lg flex flex-col overflow-hidden cursor-pointer hover:scale-95 duration-300 text-xl"
+                }
                 onClick={() => {
                   handleItemButtonClick(item);
                 }}
@@ -178,7 +180,7 @@ export default function Home() {
         <AnimatePresence>
           {selectedItem ? (
             <motion.div
-              className="mt-6rounded-md px-6 py-10"
+              className="rounded-md px-6 py-5"
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0 }}
@@ -190,16 +192,16 @@ export default function Home() {
               </div>
               {/* <div className="flex justify-center text-xl pt-10 font-medium">{selectedItem.price}</div> */}
               <div className="flex flex-col justify-center items-center mt-6">
-                <div className="text-xl"> current balance : </div>
+                <div className="text-xl"> Current Balance : </div>
                 <div className="text-lg">{stateValueMap[currState]}</div>
               </div>
 
-              <div className="flex justify-center gap-4 mt-6">
+              <div className="flex justify-center gap-3 sm:gap-4 mt-6">
                 {nominal.map((nominal) => {
                   return (
                     <button
                       key={nominal}
-                      className="btn"
+                      className="btn-small sm:btn"
                       onClick={() => handleInputButtonClick(nominal)}
                     >
                       {nominal}
@@ -212,7 +214,7 @@ export default function Home() {
                 <AnimatePresence>
                   {stateValueMap[currState] < selectedItem.price ? null : (
                     <motion.button
-                      className="btn"
+                      className="btn mr-3"
                       onClick={() => {
                         handleInputButtonClick("buy");
                         // setOutput(selectedItem.name);
@@ -223,7 +225,7 @@ export default function Home() {
                       exit="hidden"
                       variants={buttonVariants}
                     >
-                      buy
+                      Buy
                     </motion.button>
                   )}
                 </AnimatePresence>
@@ -234,7 +236,7 @@ export default function Home() {
                       onClick={() => {
                         setSelectedItem(undefined);
                       }}
-                      className="btn"
+                      className="btn-small sm:btn mr-3"
                       initial="hidden"
                       animate="show"
                       exit="hidden"

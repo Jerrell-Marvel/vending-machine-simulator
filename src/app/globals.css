@@ -30,4 +30,7 @@ body {
   .btn {
     @apply bg-slate-800 py-4 px-8 rounded-lg;
   }
+  .btn-small {
+    @apply bg-slate-800 py-4 px-6 rounded-lg;
+  }
 }
