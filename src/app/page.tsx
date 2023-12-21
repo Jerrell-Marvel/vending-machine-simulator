@@ -154,7 +154,7 @@ export default function Home() {
               <motion.div
                 key={item.name}
                 className={
-                  "w-full bg-slate-800 rounded-lg flex flex-col overflow-hidden cursor-pointer hover:scale-95 duration-300 text-xl"
+                  "w-full bg-slate-800 rounded-lg flex flex-col overflow-hidden cursor-pointer hover:scale-95 duration-300 text-xl text-center"
                 }
                 onClick={() => {
                   handleItemButtonClick(item);
