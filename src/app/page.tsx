@@ -164,11 +164,11 @@ export default function Home() {
               >
                 <div className="px-3 py-4">{item.name}</div>
                 <Image
-                  src={"/4x3.png"}
+                  src={`/${item.name}.png`}
                   width={400}
                   height={300}
                   alt={item.name}
-                  className="w-full rounded-t-lg"
+                  className="w-full rounded-t-lg h-[188px]"
                 ></Image>
 
                 <div className="px-3 py-4">{item.price}</div>
