@@ -28,6 +28,10 @@ body {
 
 @layer components {
   .btn {
+    @apply bg-slate-800 py-4 w-28 rounded-lg;
+  }
+
+  .animated-btn {
     @apply bg-slate-800 py-4 px-8 rounded-lg;
   }
 }
