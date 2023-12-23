@@ -118,12 +118,7 @@ const CheckoutDisplay = ({
       </div>
 
       {stateValueMap[currState] < selectedItem.price ? null : (
-        <BuyButton
-          selectedItem={selectedItem}
-          setSelectedItem={setSelectedItem}
-          currState={currState}
-          setCurrState={setCurrState}
-        />
+        <BuyButton onClick={() => handleInputButtonClick("buy")} />
       )}
 
       {currState === "S0" ? (
