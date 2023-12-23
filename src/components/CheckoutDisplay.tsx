@@ -39,8 +39,6 @@ const CheckoutDisplay = ({
 }: CheckoutDisplayProps) => {
   const [currState, setCurrState] = useState<string>("S0");
 
-  const checkoutContainerRef = useRef<HTMLDivElement>(null);
-
   const handleInputButtonClick = (input: string) => {
     if (selectedItem) {
       const nextState = getNextState(selectedItem, currState, input);
@@ -76,68 +74,61 @@ const CheckoutDisplay = ({
     }
   };
 
-  useEffect(() => {
-    if (checkoutContainerRef.current) {
-      checkoutContainerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  }, []);
-
   return (
-    <motion.div
-      className="px-10 mt-6"
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0 }}
-      transition={{ duration: 0.3 }}
-      id="checkout-display"
-      ref={checkoutContainerRef}
-    >
-      <div className="flex flex-col text-center p text-2xl items-center font-medium sm:font-semibold rounded-lg px-4 py-4 gap-2">
-        <p>{selectedItem.name}</p>
-        <p>{selectedItem.price}</p>
-      </div>
-      {/* <div className="flex justify-center text-xl pt-10 font-medium">{selectedItem.price}</div> */}
-      <div className="flex flex-col justify-center items-center">
-        <div className="text-xl"> Current Balance : </div>
-        <div className="text-lg">{stateValueMap[currState]}</div>
-      </div>
+    <>
+      <ScrollIntoView />
+      <motion.div
+        className="px-10 mt-6"
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0 }}
+        transition={{ duration: 0.3 }}
+        id="checkout-display"
+      >
+        <div className="flex flex-col text-center p text-2xl items-center font-medium sm:font-semibold rounded-lg px-4 py-4 gap-2">
+          <p>{selectedItem.name}</p>
+          <p>{selectedItem.price}</p>
+        </div>
+        {/* <div className="flex justify-center text-xl pt-10 font-medium">{selectedItem.price}</div> */}
+        <div className="flex flex-col justify-center items-center">
+          <div className="text-xl"> Current Balance : </div>
+          <div className="text-lg">{stateValueMap[currState]}</div>
+        </div>
 
-      <div className="flex justify-center gap-4 mt-6 flex-wrap">
-        {nominal.map((nominal) => {
-          return (
-            <Button
-              key={nominal}
-              text={nominal}
-              onClick={() => handleInputButtonClick(nominal)}
-            />
-          );
-        })}
-      </div>
+        <div className="flex justify-center gap-4 mt-6 flex-wrap">
+          {nominal.map((nominal) => {
+            return (
+              <Button
+                key={nominal}
+                text={nominal}
+                onClick={() => handleInputButtonClick(nominal)}
+              />
+            );
+          })}
+        </div>
 
-      {stateValueMap[currState] === selectedItem.price ? (
-        <>
-          <ScrollIntoView />
+        {stateValueMap[currState] === selectedItem.price ? (
+          <>
+            <ScrollIntoView />
+            <div className="flex justify-center mt-6">
+              <AnimatedButton
+                onClick={() => handleInputButtonClick("buy")}
+                text="Buy"
+              />
+            </div>
+          </>
+        ) : null}
+
+        {currState === "S0" ? (
           <div className="flex justify-center mt-6">
             <AnimatedButton
-              onClick={() => handleInputButtonClick("buy")}
-              text="Buy"
+              onClick={() => setSelectedItem(undefined)}
+              text="Cancel Transaction"
             />
           </div>
-        </>
-      ) : null}
-
-      {currState === "S0" ? (
-        <div className="flex justify-center mt-6">
-          <AnimatedButton
-            onClick={() => setSelectedItem(undefined)}
-            text="Cancel Transaction"
-          />
-        </div>
-      ) : null}
-    </motion.div>
+        ) : null}
+      </motion.div>
+    </>
   );
 };
 
