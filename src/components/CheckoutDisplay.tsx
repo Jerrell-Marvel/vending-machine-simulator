@@ -1,5 +1,10 @@
 import { Item } from "@/types/item";
-import { AnimatePresence, ForwardRefComponent, HTMLMotionProps, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  ForwardRefComponent,
+  HTMLMotionProps,
+  motion,
+} from "framer-motion";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import Button from "./Button";
 import Swal from "sweetalert2";
@@ -27,7 +32,10 @@ const stateValueMap: { [key: string]: number } = {
 
 const nominal = ["1000", "2000", "5000", "10000"];
 
-const CheckoutDisplay = ({ selectedItem, setSelectedItem }: CheckoutDisplayProps) => {
+const CheckoutDisplay = ({
+  selectedItem,
+  setSelectedItem,
+}: CheckoutDisplayProps) => {
   const [currState, setCurrState] = useState<string>("S0");
 
   const checkoutContainerRef = useRef<HTMLDivElement>(null);
@@ -41,9 +49,9 @@ const CheckoutDisplay = ({ selectedItem, setSelectedItem }: CheckoutDisplayProps
         if (output === "drink") {
           Swal.fire({
             title: "Item purchased",
-            text: `here's your ${selectedItem?.name}`,
+            text: `Here's your ${selectedItem?.name}`,
             icon: "success",
-            confirmButtonText: "alright",
+            confirmButtonText: "Alright",
             confirmButtonColor: "#475569",
             background: "#1e293b",
             color: "white",
@@ -52,9 +60,9 @@ const CheckoutDisplay = ({ selectedItem, setSelectedItem }: CheckoutDisplayProps
         } else {
           Swal.fire({
             title: "Amount of money must be exact",
-            text: `here's your ${output} back`,
+            text: `Here's your ${output} back`,
             icon: "error",
-            confirmButtonText: "alright",
+            confirmButtonText: "Alright",
             confirmButtonColor: "#475569",
             background: "#1e293b",
             color: "white",
@@ -69,7 +77,10 @@ const CheckoutDisplay = ({ selectedItem, setSelectedItem }: CheckoutDisplayProps
 
   useEffect(() => {
     if (checkoutContainerRef.current) {
-      checkoutContainerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      checkoutContainerRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
   }, []);
 
@@ -89,7 +100,7 @@ const CheckoutDisplay = ({ selectedItem, setSelectedItem }: CheckoutDisplayProps
       </div>
       {/* <div className="flex justify-center text-xl pt-10 font-medium">{selectedItem.price}</div> */}
       <div className="flex flex-col justify-center items-center">
-        <div className="text-xl"> current balance : </div>
+        <div className="text-xl"> Current Balance : </div>
         <div className="text-lg">{stateValueMap[currState]}</div>
       </div>
 
@@ -118,7 +129,7 @@ const CheckoutDisplay = ({ selectedItem, setSelectedItem }: CheckoutDisplayProps
         <div className="flex justify-center mt-6">
           <AnimatedButton
             onClick={() => setSelectedItem(undefined)}
-            text="Cancel transaction"
+            text="Cancel Transaction"
           />
         </div>
       ) : null}
