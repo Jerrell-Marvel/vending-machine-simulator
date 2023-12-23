@@ -10,6 +10,7 @@ import Button from "./Button";
 import Swal from "sweetalert2";
 import { getNextState, getOutput } from "@/utils/states";
 import AnimatedButton from "./AnimatedButton";
+import BuyButton from "./BuyButton";
 
 type CheckoutDisplayProps = {
   selectedItem: Item;
@@ -117,12 +118,12 @@ const CheckoutDisplay = ({
       </div>
 
       {stateValueMap[currState] < selectedItem.price ? null : (
-        <div className="flex justify-center mt-6">
-          <AnimatedButton
-            onClick={() => handleInputButtonClick("buy")}
-            text="Buy"
-          />
-        </div>
+        <BuyButton
+          selectedItem={selectedItem}
+          setSelectedItem={setSelectedItem}
+          currState={currState}
+          setCurrState={setCurrState}
+        />
       )}
 
       {currState === "S0" ? (
