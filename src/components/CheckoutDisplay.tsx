@@ -10,7 +10,7 @@ import Button from "./Button";
 import Swal from "sweetalert2";
 import { getNextState, getOutput } from "@/utils/states";
 import AnimatedButton from "./AnimatedButton";
-import BuyButton from "./BuyButton";
+import ScrollIntoView from "./ScrollIntoView";
 
 type CheckoutDisplayProps = {
   selectedItem: Item;
@@ -117,9 +117,16 @@ const CheckoutDisplay = ({
         })}
       </div>
 
-      {stateValueMap[currState] < selectedItem.price ? null : (
-        <BuyButton onClick={() => handleInputButtonClick("buy")} />
-      )}
+      {stateValueMap[currState] === selectedItem.price ? (
+        <ScrollIntoView>
+          <div className="flex justify-center mt-6">
+            <AnimatedButton
+              onClick={() => handleInputButtonClick("buy")}
+              text="Buy"
+            />
+          </div>
+        </ScrollIntoView>
+      ) : null}
 
       {currState === "S0" ? (
         <div className="flex justify-center mt-6">
