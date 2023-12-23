@@ -118,14 +118,15 @@ const CheckoutDisplay = ({
       </div>
 
       {stateValueMap[currState] === selectedItem.price ? (
-        <ScrollIntoView>
+        <>
+          <ScrollIntoView />
           <div className="flex justify-center mt-6">
             <AnimatedButton
               onClick={() => handleInputButtonClick("buy")}
               text="Buy"
             />
           </div>
-        </ScrollIntoView>
+        </>
       ) : null}
 
       {currState === "S0" ? (

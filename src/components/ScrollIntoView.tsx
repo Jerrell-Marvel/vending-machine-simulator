@@ -1,10 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { ReactNode } from "react";
 
-type ScrollIntoViewType = {
-  children?: ReactNode;
-};
-const ScrollIntoView = ({ children }: ScrollIntoViewType) => {
+const ScrollIntoView = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -17,7 +14,7 @@ const ScrollIntoView = ({ children }: ScrollIntoViewType) => {
     }
   }, [scrollRef]);
 
-  return <div ref={scrollRef}>{children}</div>;
+  return <div ref={scrollRef} style={{ visibility: "hidden" }}></div>;
 };
 
 export default ScrollIntoView;
