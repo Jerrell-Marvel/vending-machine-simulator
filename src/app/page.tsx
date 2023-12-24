@@ -1,17 +1,11 @@
 "use client";
-import { getNextState, getOutput } from "@/utils/states";
-import Image from "next/image";
+
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AnimatePresence, motion } from "framer-motion";
 import { Item } from "@/types/item";
 import Card from "@/components/Card";
 import CheckoutDisplay from "@/components/CheckoutDisplay";
-
-// export type Item = {
-//   name: string;
-//   price: number;
-// };
 
 const items: Item[] = [
   { name: "Nipis Madu", price: 4000 },
@@ -60,7 +54,7 @@ export default function Home() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
-          Lorem, ipsum dolor.
+          FSM Vending Machine Simulator
         </motion.div>
 
         <motion.div

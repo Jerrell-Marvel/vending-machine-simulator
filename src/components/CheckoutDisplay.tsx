@@ -1,11 +1,6 @@
 import { Item } from "@/types/item";
-import {
-  AnimatePresence,
-  ForwardRefComponent,
-  HTMLMotionProps,
-  motion,
-} from "framer-motion";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { Dispatch, SetStateAction, useState } from "react";
 import Button from "./Button";
 import Swal from "sweetalert2";
 import { getNextState, getOutput } from "@/utils/states";
@@ -33,10 +28,7 @@ const stateValueMap: { [key: string]: number } = {
 
 const nominal = ["1000", "2000", "5000", "10000"];
 
-const CheckoutDisplay = ({
-  selectedItem,
-  setSelectedItem,
-}: CheckoutDisplayProps) => {
+const CheckoutDisplay = ({ selectedItem, setSelectedItem }: CheckoutDisplayProps) => {
   const [currState, setCurrState] = useState<string>("S0");
 
   const handleInputButtonClick = (input: string) => {

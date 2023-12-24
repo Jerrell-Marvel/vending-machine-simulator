@@ -1,4 +1,4 @@
-import { Item } from "@/app/page";
+import { Item } from "@/types/item";
 
 const stateMap: { [key: string]: number } = {
   S0: 0,
