@@ -42,7 +42,7 @@ export default function Home() {
         title: "Transaction cannot be processed",
         text: `Please complete the ongoing transaction first`,
         icon: "error",
-        confirmButtonText: "alright",
+        confirmButtonText: "Alright",
         confirmButtonColor: "#475569",
         background: "#1e293b",
         color: "white",
