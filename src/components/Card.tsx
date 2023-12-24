@@ -18,9 +18,7 @@ const Card = ({ item, onClick }: CardProps) => {
   return (
     <motion.div
       key={item.name}
-      className={
-        "w-full bg-slate-800 rounded-lg flex flex-col overflow-hidden cursor-pointer hover:scale-95 duration-300 text-xl text-center"
-      }
+      className={"w-full bg-slate-800 rounded-lg flex flex-col overflow-hidden cursor-pointer hover:scale-95 duration-300 text-xl text-center"}
       onClick={() => {
         // handleItemButtonClick(item);
         onClick();
@@ -29,13 +27,15 @@ const Card = ({ item, onClick }: CardProps) => {
       variants={cardItemVariants}
     >
       <div className="px-3 py-4">{item.name}</div>
-      <Image
-        src={`/${item.name}.jpeg`}
-        width={400}
-        height={300}
-        alt={item.name}
-        className="w-full rounded-t-lg"
-      ></Image>
+      <div className="w-full aspect-square relative">
+        <Image
+          src={`/${item.name}.jpeg`}
+          alt={item.name}
+          className="rounded-lg"
+          width={300}
+          height={300}
+        ></Image>
+      </div>
 
       <div className="px-3 py-4">{item.price}</div>
     </motion.div>
