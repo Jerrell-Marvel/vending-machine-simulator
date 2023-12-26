@@ -1,11 +1,29 @@
 import { Item } from "@/types/item";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Dispatch, SetStateAction, useState } from "react";
 import Button from "./Button";
 import Swal from "sweetalert2";
 import { getNextState, getOutput } from "@/utils/states";
 import AnimatedButton from "./AnimatedButton";
 import ScrollIntoView from "./ScrollIntoView";
+
+const animatedButtonVariants = {
+  hidden: {
+    y: 25,
+    opacity: 0,
+    transition: {
+      duration: 0.3,
+    },
+  },
+
+  show: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.3,
+    },
+  },
+};
 
 type CheckoutDisplayProps = {
   selectedItem: Item;
@@ -99,26 +117,28 @@ const CheckoutDisplay = ({ selectedItem, setSelectedItem }: CheckoutDisplayProps
           })}
         </div>
 
-        {stateValueMap[currState] === selectedItem.price ? (
-          <>
-            <ScrollIntoView />
+        <AnimatePresence mode="wait">
+          {stateValueMap[currState] === selectedItem.price ? (
+            <>
+              <ScrollIntoView />
+              <div className="flex justify-center mt-6">
+                <AnimatedButton
+                  onClick={() => handleInputButtonClick("buy")}
+                  text="Buy"
+                />
+              </div>
+            </>
+          ) : null}
+
+          {currState === "S0" ? (
             <div className="flex justify-center mt-6">
               <AnimatedButton
-                onClick={() => handleInputButtonClick("buy")}
-                text="Buy"
+                onClick={() => setSelectedItem(undefined)}
+                text="Cancel Transaction"
               />
             </div>
-          </>
-        ) : null}
-
-        {currState === "S0" ? (
-          <div className="flex justify-center mt-6">
-            <AnimatedButton
-              onClick={() => setSelectedItem(undefined)}
-              text="Cancel Transaction"
-            />
-          </div>
-        ) : null}
+          ) : null}
+        </AnimatePresence>
       </motion.div>
     </>
   );

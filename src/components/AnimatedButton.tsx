@@ -25,20 +25,18 @@ type AnimatedButtonProps = {
 
 const AnimatedButton = ({ text, onClick }: AnimatedButtonProps) => {
   return (
-    <AnimatePresence>
-      <motion.button
-        className="animated-btn"
-        onClick={() => {
-          onClick();
-        }}
-        initial="hidden"
-        animate="show"
-        exit="hidden"
-        variants={animatedButtonVariants}
-      >
-        {text}
-      </motion.button>
-    </AnimatePresence>
+    <motion.button
+      className="animated-btn"
+      initial="hidden"
+      animate="show"
+      exit="hidden"
+      variants={animatedButtonVariants}
+      onClick={() => {
+        onClick();
+      }}
+    >
+      {text}
+    </motion.button>
   );
 };
 
